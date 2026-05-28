@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 py-6 border-t border-gray-200">
         <div className="flex space-x-16">
           <nav>
             <div className="font-medium">Quick Links</div>
