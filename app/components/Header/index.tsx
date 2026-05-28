@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { UserIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import { UserIcon, UserPlusIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import MobileMenu from "./MobileMenu";
 
 const navigation = [
@@ -19,7 +19,7 @@ export default function Header() {
       <MobileMenu open={open} setOpen={setOpen} navigation={navigation} />
       <header className="">
         <nav aria-label="Main Navigation" className="max-w-7xl mx-auto px-4">
-          <div className="border-b border-gray-200">
+          <div className="border-b border-gray-300">
             <div className="flex h-16 justify-between items-center">
               <button
                 type="button"
@@ -44,17 +44,21 @@ export default function Header() {
                   <a
                     key={nav.title}
                     href={nav.link}
-                    className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                    className="flex items-center font-medium text-gray-700 hover:text-gray-800"
                   >
                     {nav.title}
                   </a>
                 ))}
               </div>
               {/* Account */}
-              <div>
-                <a href="/" className="text-gray-400 hover:text-gray-500">
-                  <span className="sr-only">Account</span>
+              <div className="flex space-x-2">
+                <a href="login" className="text-gray-400 hover:text-gray-500">
+                  <span className="sr-only">Login</span>
                   <UserIcon className="size-6" />
+                </a>
+                <a href="signup" className="text-gray-400 hover:text-gray-500">
+                  <span className="sr-only">Signup</span>
+                  <UserPlusIcon className="size-6" />
                 </a>
               </div>
             </div>
