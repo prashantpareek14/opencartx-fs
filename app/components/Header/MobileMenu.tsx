@@ -17,7 +17,9 @@ export default function MobileMenu({ open, setOpen, navigation}) {
           transition
           className="relative flex w-full max-w-xs transform flex-col overflow-y-auto bg-white pb-12 shadow-xl transition duration-300 ease-in-out data-closed:-translate-x-full"
         >
+          {/* Top bar of Mobile Menu Dialog */}
           <div className="flex px-4 pt-5 pb-2">
+            {/* Close menu button */}
             <button
               type="button"
               onClick={() => setOpen(false)}
@@ -29,6 +31,7 @@ export default function MobileMenu({ open, setOpen, navigation}) {
             </button>
           </div>
 
+          {/* nav links */}
           <div className="space-y-6 border-t border-gray-200 px-4 py-6">
             {navigation.map((nav) => (
               <div key={nav.title} className="flow-root">
