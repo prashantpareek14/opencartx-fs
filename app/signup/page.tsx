@@ -3,8 +3,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import FormField from "../components/ui/FormField";
-import Button from "../components/ui/Button";
+import FormField from "@/components/ui/FormField";
+import Button from "@/components/ui/Button";
+import { signup } from "@/app/actions/auth";
 
 const emailSchema = z.email({
   error: (issue) =>
@@ -37,6 +38,7 @@ export default function Signup() {
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     console.log('Signup data:', data);
+    await signup(data);
   };
 
   return (

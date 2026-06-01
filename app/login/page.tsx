@@ -1,5 +1,5 @@
-import FormField from "../components/ui/FormField";
-import Button from "../components/ui/Button";
+import FormField from "@/components/ui/FormField";
+import Button from "@/components/ui/Button";
 
 export default function Login() {
   return (
