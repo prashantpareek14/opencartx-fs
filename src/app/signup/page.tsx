@@ -1,44 +1,41 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 import FormField from "@/components/ui/FormField";
 import Button from "@/components/ui/Button";
-import { signup } from "@/app/actions/auth";
-
-const emailSchema = z.email({
-  error: (issue) =>
-    !issue.input ? "Email field is required" : "Invalid email format",
-});
-
-export const loginSchema = z
-  .object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: emailSchema,
-    phone: z.string().min(10, "Phone number must be at least 10 digits"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z
-      .string()
-      .min(6, "Confirm Password must be at least 6 characters"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+import { SignupSchema, type SignupInput } from "@/lib/validations";
+import { signup } from "@/actions/auth";
 
 export default function Signup() {
+  const [signupError, setSignupError] = useState<string[] | null>(null);
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(loginSchema),
+    formState: { errors, isSubmitting },
+  } = useForm<SignupInput>({
+    resolver: zodResolver(SignupSchema),
   });
+  const router = useRouter();
 
-  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-    console.log('Signup data:', data);
-    await signup(data);
+  const onSubmit = async (data: SignupInput) => {
+    try {
+      const result = await signup(data);
+
+      if (!result.success) {
+        setSignupError(result.errors);
+      }
+
+      toast.success("Signup successful! Please check your email to verify your account.", { duration: 2000 });
+
+      // redirect to home page
+      router.push("/");
+    } catch (error) {
+      toast.error("Signup failed. An unexpected error occurred.");
+    }
   };
 
   return (
@@ -48,6 +45,13 @@ export default function Signup() {
         <div className="text-center text-lg text-gray-600">
           Sign up for great shopping experience
         </div>
+        {signupError && (
+          <div className="mt-2">
+            {signupError.map((error, index) => (
+              <p key={index} className="text-red-500">{error}</p>
+            ))}
+          </div>
+        )}
         <div className="mt-4 px-8 py-6 bg-white border border-gray-300 rounded-sm shadow-xs">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
@@ -104,7 +108,7 @@ export default function Signup() {
                 </div>
               </div>
             </div>
-            <Button text="Signup" />
+            <Button text="Signup" disabled={isSubmitting} />
           </form>
         </div>
       </div>
