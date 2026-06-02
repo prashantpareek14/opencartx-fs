@@ -5,6 +5,7 @@ import { validate } from "@/lib/validate";
 import bcrypt from "bcrypt";
 import * as crypto from "crypto";
 import { SignupSchema, type SignupInput } from "@/lib/validations";
+import { sendVerificationEmail } from "@/actions/email";
 
 export async function signup(formData: SignupInput) {
   const { data, errors } = validate(SignupSchema, formData);
@@ -30,7 +31,7 @@ export async function signup(formData: SignupInput) {
         email: email.toLowerCase(), // normalize email
         phone,
         password: hashedPassword,
-        emailVerificationToken: crypto.randomBytes(32).toString("hex"), // generate a random token
+        emailVerificationToken: crypto.randomBytes(32).toString("hex"),
       },
     });
 
@@ -40,6 +41,9 @@ export async function signup(formData: SignupInput) {
         errors: ["Failed to create user"],
       }
     }
+
+    // sending real email is pending for testing
+    //await sendVerificationEmail(user.email, user.emailVerificationToken || "");
 
     return { success: true }
   } catch (e) {
