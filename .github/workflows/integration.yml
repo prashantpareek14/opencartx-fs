@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4 # tells github to checkout to current branch
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@4
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
