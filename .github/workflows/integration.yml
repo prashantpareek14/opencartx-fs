@@ -1,0 +1,50 @@
+name: Integration
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+  
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+
+    steps:
+      - uses: actions/checkout@v4 # tells github to checkout to current branch
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: 'Install Dependencies'
+        run: npm ci
+      - name: 'Run Tests'
+        run: npm run test
+    
+  build:
+
+    runs-on: ubuntu-latest
+    needs: test # ensure test job 
+
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: 'Install Dependencies'
+      run: npm ci
+      
+    - name: 'Build Process'
+      run: npm run build --if-present
