@@ -1,4 +1,15 @@
-export default function FormField({ label, name, type = "text", placeholder, inputProps, error }) {
+import { JSX } from "react";
+
+type FormFieldProps = {
+  label?: string;
+  name?: string;
+  type?: string;
+  placeholder?: string;
+  inputProps?: JSX.IntrinsicElements['input'];
+  error?: string | null;
+};
+
+export default function FormField({ label = '', name = '', type = 'text', placeholder = '', inputProps = {}, error = null }: FormFieldProps) {
   return (
     <>
       <label htmlFor={name} className="block mb-1">
@@ -12,7 +23,7 @@ export default function FormField({ label, name, type = "text", placeholder, inp
         className="w-full px-2 py-1.5 border border-gray-200 rounded-sm"
         {...inputProps}
       ></input>
-      {error && <span className="text-sm text-red-500">{error.message}</span>}
+      {error && <span className="text-sm text-red-500">{error}</span>}
     </>
   );
 }
