@@ -1,7 +1,14 @@
+import type { Dispatch, SetStateAction } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-export default function MobileMenu({ open, setOpen, navigation}) {
+type MobileMenuProps = {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  navigation: { title: string; link: string }[];
+};
+
+export default function MobileMenu({ open, setOpen, navigation }: MobileMenuProps) {
   return (
     <Dialog
       open={open}

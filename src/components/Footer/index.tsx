@@ -1,4 +1,4 @@
-function FooterLink({ text, link}) {
+function FooterLink({ text = '', link = '' } : { text: string; link: string }) {
   return (
     <a href={link} className="text-gray-600 hover:text-gray-800">{text}</a>
   )

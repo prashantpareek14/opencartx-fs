@@ -25,10 +25,15 @@ export default function Signup() {
     try {
       const result = await signup(data);
 
-      if (!result.success) {
-        setSignupError(result.errors);
+      if (!result?.success) {
+        const errors = Array.isArray(result?.errors)
+          ? result.errors
+          : result?.errors?.errors ?? null;
+        setSignupError(errors);
+        return;
       }
 
+      setSignupError(null);
       toast.success("Signup successful! Please check your email to verify your account.", { duration: 2000 });
 
       // redirect to home page
@@ -61,7 +66,7 @@ export default function Signup() {
                 type="text"
                 placeholder="Enter your full name"
                 inputProps={register("name")}
-                error={errors.name}
+                error={errors.name?.message}
               />
             </div>
             <div className="mb-4">
@@ -71,7 +76,7 @@ export default function Signup() {
                 type="email"
                 placeholder="Enter your email address"
                 inputProps={register("email")}
-                error={errors.email}
+                error={errors.email?.message}
               />
             </div>
             <div className="mb-4">
@@ -81,7 +86,7 @@ export default function Signup() {
                 type="text"
                 placeholder="Enter your phone number"
                 inputProps={register("phone")}
-                error={errors.phone}
+                error={errors.phone?.message}
               />
             </div>
             <div className="mb-4">
@@ -93,7 +98,7 @@ export default function Signup() {
                     type="password"
                     placeholder="Enter your password"
                     inputProps={register("password")}
-                    error={errors.password}
+                    error={errors.password?.message}
                   />
                 </div>
                 <div>
@@ -103,7 +108,7 @@ export default function Signup() {
                     type="password"
                     placeholder="Enter your password again"
                     inputProps={register("confirmPassword")}
-                    error={errors.confirmPassword}
+                    error={errors.confirmPassword?.message}
                   />
                 </div>
               </div>
